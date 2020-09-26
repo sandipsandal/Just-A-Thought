@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %} userPost {% endblock title %}
+<!--{% block addPostactive %} active {% endblock addPostactive %} -->
+
+
+
+{% block body %}
+
+
+  <div class="container my-3">
+  <h3>Post your thaught</h3>
+    <form method = "post" action = ""> <!--#####-->
+    {% csrf_token %}
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="title" aria-describedby="title" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="author">Author Name</label>
+        <input type="text" class="form-control" id="author" name = "author" required>
+      </div>
+
+      <div class="form-group">
+          <label for="category">Category</label>
+          
+          <select class="form-control" id="category" name = "category" required="required">
+          <option selected disabled="true">Choose Category</option>
+          {% for choicesList in choices %}
+            <option value={{ choicesList.name }}>{{ choicesList.name }}</option>
+             {% endfor %}
+             <option value="others">Others</option>
+          <!--
+            <option selected disabled="true">Choose Category</option>
+           
+              {% for entry in items %}
+                  <option value="{{ entry.id }}">{{ entry.name }}</option>
+              {% endfor %}
+          </select>
+            <option value="software">Software</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="food">Food</option>
+            <option value="others">Others</option>  -->
+            
+          </select>
+
+          <small id="categoryHelp" class="form-text text-muted">Please select your Blog's catagory</small>
+
+          <div id="otherType" name="otherType" style="display:none;" class="form-group">
+              <label for="specify">Ohter Category name</label>
+              <input type="text" name="category" id="category"  class="form-control" required placeholder="Specify your catagory"/>
+      </div>
+
+      </div>
+      
+      
+
+      
+      
+      <div class="form-group">
+        <label for="slug">Title-Tags</label>
+         
+        <input type="slug" class="form-control" id="slug" name="slug"  onblur="this.value=removeSpaces(this.value);"  required>
+        <small id="slugHelp" class="form-text text-muted">Please enter the text tag like First-Post-by-yourname</small>
+        
+      </div>
+      
+      <div class="form-group">
+        <label for="content">Content </label>
+        <textarea class="form-control" name = "content" id="content" name = "content" cols="30" rows="6"></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <script>
+        CKEDITOR.replace( 'content' );
+  </script>
+  <script language="javascript" type="text/javascript">
+    function removeSpaces(string) {
+      return string.split(' ').join('-');
+      }
+  </script>
+
+
+<script language="javascript" type="text/javascript">
+  $('#category').on('change',function(){
+      if( $(this).val()==="others"){
+      $("#otherType").show()
+      }
+      else{
+      $("#otherType").hide()
+      }
+  });
+</script>
+
+
+{% endblock body %}
